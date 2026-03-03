@@ -7,9 +7,5 @@ class CategoryInterface(ABC):
         pass
 
     @abstractmethod
-    def get_category_by_id(self, category_id: int) -> Category:
-        pass
-
-    @abstractmethod
-    def list_categories(self) -> list[Category]:
+    def get_by_name_and_store(self, name: str, store_id: str) -> Category | None:
         pass

@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from src.infrastructure.database import db
 from src.infrastructure.models import *
 from src.api.v1.store import store_bp
+from src.api.v1.category import category_bp
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -17,6 +18,7 @@ db.init_app(app)
 migrate = Migrate(app, db)
 
 app.register_blueprint(store_bp)
+app.register_blueprint(category_bp)
 
 if __name__ == "__main__":
     app.run(debug=True)

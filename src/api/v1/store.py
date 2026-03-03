@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from src.api.injections.store import get_create_store_use_case, get_store_by_id_use_case
+from src.api.injections.injections import get_create_store_use_case, get_store_by_id_use_case
 from src.api.dto.store import CreateStoreDTO, DetailStoreDTO
 
 store_bp = Blueprint('store', __name__, url_prefix='/api/v1/store')
