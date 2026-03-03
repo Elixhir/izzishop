@@ -1,16 +1,20 @@
 from datetime import datetime
 from typing import Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from src.domain.utilities.generate_slug import generate_slug
 
 @dataclass
 class Product:
-    id: int
     name: str
-    slug: str
-    description: Optional[str]
+    slug: str = field(init=False)
     price: float
     stock: int
-    image_url: Optional[str]
     active: bool
-    created_at: datetime
-    updated_at: Optional[datetime] = None
+    image_url: Optional[str]
+    description: Optional[str]
+    id: Optional[int] = None
+    
+    def __post_init__(self):
+        self.slug = generate_slug(self.name)
+        
+    
