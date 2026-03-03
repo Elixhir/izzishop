@@ -5,11 +5,7 @@ class StoreInterface(ABC):
     @abstractmethod
     def create_store(self, store: Store) -> Store:
         pass
-
+    
     @abstractmethod
     def get_store_by_id(self, store_id: int) -> Store:
-        pass
-
-    @abstractmethod
-    def list_stores(self) -> list[Store]:
         pass

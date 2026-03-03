@@ -1,12 +1,29 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional
+import re
+import unicodedata
+
+def generate_slug(name: str) -> str:
+    name = unicodedata.normalize("NFKD", name)
+    name = name.encode("ascii", "ignore").decode("ascii")
+
+    name = name.lower()
+
+    name = re.sub(r"\s+", "-", name)
+
+    name = re.sub(r"[^a-z0-9\-]", "", name)
+
+    name = re.sub(r"-+", "-", name)
+
+    return name.strip("-")
 
 @dataclass
 class Store:
-    id: Optional[int] = None
     name: str
-    slug: str
+    slug: str = field(init=False)
     active: bool = True
-    created_at: datetime = None
-    updated_at: datetime = None
+    id: Optional[int] = None
+    
+    def __post_init__(self):
+        self.slug = generate_slug(self.name)
