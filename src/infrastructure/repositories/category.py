@@ -42,3 +42,19 @@ class CategoryRepository(CategoryInterface):
             store_id=category_model.store_id,
             active=category_model.active
         )
+        
+    def get_by_id(self, category_id: str) -> Category | None:
+
+        category_model = CategoryModel.query.filter_by(
+            id=category_id
+        ).first()
+
+        if not category_model:
+            return None
+
+        return Category(
+            id=category_model.id,
+            name=category_model.name,
+            store_id=category_model.store_id,
+            active=category_model.active
+        )

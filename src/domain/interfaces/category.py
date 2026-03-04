@@ -9,3 +9,7 @@ class CategoryInterface(ABC):
     @abstractmethod
     def get_by_name_and_store(self, name: str, store_id: str) -> Category | None:
         pass
+
+    @abstractmethod
+    def get_by_id(self, category_id: str) -> Category | None:
+        pass

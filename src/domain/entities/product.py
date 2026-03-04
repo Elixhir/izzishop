@@ -10,6 +10,8 @@ class Product:
     price: float
     stock: int
     active: bool
+    store_id: str
+    category_id: Optional[str]
     image_url: Optional[str]
     description: Optional[str]
     id: Optional[int] = None
