@@ -26,7 +26,7 @@ def create_product(store_id):
             storage = SupabaseStorage()
             image_url = storage.upload_file(image, store_id)
 
-        product = get_create_product_use_case.execute(
+        product = get_create_product_use_case().execute(
             name=name,
             price=price,
             stock=stock,
