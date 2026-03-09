@@ -16,7 +16,7 @@ app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 db.init_app(app)
 migrate = Migrate(app, db)
