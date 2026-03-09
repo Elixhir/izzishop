@@ -25,5 +25,12 @@ app.register_blueprint(store_bp)
 app.register_blueprint(category_bp)
 app.register_blueprint(product_bp)
 
+@app.after_request
+def add_cors_headers(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+    response.headers.add("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
+    return response
+
 if __name__ == "__main__":
     app.run(debug=True)
