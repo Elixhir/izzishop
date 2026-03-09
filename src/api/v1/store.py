@@ -35,7 +35,7 @@ def get_store_by_id(store_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 404
     
-@store_bp.route("/stores", methods=["GET"])
+@store_bp.route("/", methods=["GET"])
 def get_all_active_stores():
     try:
         stores = get_all_active_stores_use_case().execute()
