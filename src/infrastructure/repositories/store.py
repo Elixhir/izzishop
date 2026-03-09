@@ -21,3 +21,6 @@ class StoreRepository(StoreInterface):
         if not store:
             raise Exception("Store not found")
         return store
+    
+    def get_all_active_stores(self):
+        return StoreModel.query.filter(StoreModel.active == True).all()

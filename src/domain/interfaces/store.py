@@ -9,3 +9,7 @@ class StoreInterface(ABC):
     @abstractmethod
     def get_store_by_id(self, store_id: int) -> Store:
         pass
+    
+    @abstractmethod
+    def get_all_active_stores(self) -> list[Store]:
+        pass
