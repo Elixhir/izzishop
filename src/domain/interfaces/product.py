@@ -13,3 +13,7 @@ class ProductInterface(ABC):
     @abstractmethod
     def get_products_by_category_and_store(self, category_id: int, store_id: int) -> list[Product]:
         pass
+    
+    @abstractmethod
+    def get_top_expensive_products(self, limit: int) -> list[Product]:
+        pass

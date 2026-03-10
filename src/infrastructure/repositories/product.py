@@ -66,3 +66,19 @@ class ProductRepository(ProductInterface):
                 active=product.active
             ) for product in products
         ]
+        
+    def get_top_expensive_products(self, limit):
+        products = ProductModel.query.order_by(ProductModel.price.desc()).limit(limit).all()
+        return [
+            Product(
+                id=product.id,
+                name=product.name,
+                price=product.price,
+                stock=product.stock,
+                store_id=product.store_id,
+                category_id=product.category_id,
+                description=product.description,
+                image_url=product.image_url,
+                active=product.active
+            ) for product in products
+        ]

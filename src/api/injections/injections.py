@@ -3,6 +3,7 @@ from src.domain.use_cases.create_store import CreateStoreUseCase
 from src.domain.use_cases.get_categories_by_store_id import GetCategoriesByStoreId
 from src.domain.use_cases.get_products_by_category_and_store import GetProductsByCategoryAndStore
 from src.domain.use_cases.get_products_by_store import GetProductsByStore
+from src.domain.use_cases.get_top_expensive_products import GetTopExpensiveProductsUseCase
 from src.infrastructure.repositories.product import ProductRepository
 from src.infrastructure.repositories.store import StoreRepository
 from src.domain.use_cases.get_store_by_id import GetStoreByIdUseCase
@@ -58,4 +59,9 @@ def get_products_by_store_use_case():
 def get_products_by_category_and_store_use_case():
     return GetProductsByCategoryAndStore(
         product_repository=get_product_repository()
-    )   
+    )  
+    
+def get_top_expensive_products_use_case():
+    return GetTopExpensiveProductsUseCase(
+        product_repository=get_product_repository()
+    )
