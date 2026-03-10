@@ -9,3 +9,7 @@ class ProductInterface(ABC):
     @abstractmethod
     def get_products_by_store(self, store_id: int) -> list[Product]:
         pass
+    
+    @abstractmethod
+    def get_products_by_category_and_store(self, category_id: int, store_id: int) -> list[Product]:
+        pass
