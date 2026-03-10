@@ -13,3 +13,7 @@ class CategoryInterface(ABC):
     @abstractmethod
     def get_by_id(self, category_id: str) -> Category | None:
         pass
+    
+    @abstractmethod
+    def get_categories_by_store_id(self, store_id: str) -> list[Category]:
+        pass

@@ -58,3 +58,14 @@ class CategoryRepository(CategoryInterface):
             store_id=category_model.store_id,
             active=category_model.active
         )
+        
+    def get_categories_by_store_id(self, store_id):
+        categories = CategoryModel.query.filter_by(store_id=store_id).all()
+        return [
+            Category(
+                id=category.id,
+                name=category.name,
+                store_id=category.store_id,
+                active=category.active
+            ) for category in categories
+        ]
