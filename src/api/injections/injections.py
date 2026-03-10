@@ -1,5 +1,6 @@
 from src.domain.use_cases.create_product import CreateProductUseCase
 from src.domain.use_cases.create_store import CreateStoreUseCase
+from src.domain.use_cases.get_products_by_store import GetProductsByStore
 from src.infrastructure.repositories.product import ProductRepository
 from src.infrastructure.repositories.store import StoreRepository
 from src.domain.use_cases.get_store_by_id import GetStoreByIdUseCase
@@ -41,4 +42,9 @@ def get_create_product_use_case():
         product_repository=get_product_repository(),
         store_repository=StoreRepository(),
         category_repository=CategoryRepository()
+    )
+    
+def get_products_by_store_use_case():
+    return GetProductsByStore(
+        product_repository=get_product_repository()
     )

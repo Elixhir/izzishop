@@ -34,3 +34,19 @@ class ProductRepository(ProductInterface):
             image_url=new_product.image_url,
             active=new_product.active
         )
+        
+    def get_products_by_store(self, store_id: int) -> list[Product]:
+        products = ProductModel.query.filter_by(store_id=store_id).all()
+        return [
+            Product(
+                id=product.id,
+                name=product.name,
+                price=product.price,
+                stock=product.stock,
+                store_id=product.store_id,
+                category_id=product.category_id,
+                description=product.description,
+                image_url=product.image_url,
+                active=product.active
+            ) for product in products
+        ]
