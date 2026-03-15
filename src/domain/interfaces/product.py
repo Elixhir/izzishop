@@ -17,3 +17,7 @@ class ProductInterface(ABC):
     @abstractmethod
     def get_top_expensive_products(self, limit: int) -> list[Product]:
         pass
+    
+    @abstractmethod
+    def delete_product(self, product_id: int):
+        pass

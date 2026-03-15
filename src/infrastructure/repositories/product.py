@@ -2,8 +2,11 @@ from src.domain.interfaces.product import ProductInterface
 from src.infrastructure.models.product import ProductModel
 from src.infrastructure.database import db
 from src.domain.entities.product import Product
+from src.infrastructure.storage.supabase_storage import SupabaseStorage
 
 class ProductRepository(ProductInterface):
+    def __init__(self):
+        self.storage = SupabaseStorage()
 
     def create_product(self, product: Product) -> Product:
 
@@ -82,3 +85,18 @@ class ProductRepository(ProductInterface):
                 active=product.active
             ) for product in products
         ]
+        
+    def delete_product(self, product_id: int) -> bool:
+
+        product = ProductModel.query.get(product_id)
+
+        if not product:
+            return False
+
+        if product.image_url:
+            self.storage.delete_file(product.image_url)
+
+        db.session.delete(product)
+        db.session.commit()
+
+        return True

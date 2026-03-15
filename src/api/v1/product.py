@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from src.api.injections.injections import get_create_product_use_case, get_products_by_category_and_store_use_case, get_products_by_store_use_case, get_top_expensive_products_use_case
+from src.api.injections.injections import get_create_product_use_case, get_delete_product_use_case, get_products_by_category_and_store_use_case, get_products_by_store_use_case, get_top_expensive_products_use_case
 from src.infrastructure.storage.supabase_storage import SupabaseStorage
 
 product_bp = Blueprint(
@@ -75,5 +75,16 @@ def get_top_expensive_products():
             "message": "Top expensive products retrieved successfully",
             "data": [product.__dict__ for product in products]
         }), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+    
+@product_bp.route("/products/<int:product_id>", methods=["DELETE"])
+def delete_product(product_id):
+    try:
+        success = get_delete_product_use_case().execute(product_id=product_id)
+        if success:
+            return jsonify({"message": "Product deleted successfully"}), 200
+        else:
+            return jsonify({"error": "Product not found"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 400
