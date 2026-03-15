@@ -90,9 +90,6 @@ class ProductRepository(ProductInterface):
 
         product = ProductModel.query.get(product_id)
 
-        if not product:
-            return False
-
         if product.image_url:
             self.storage.delete_file(product.image_url)
 
