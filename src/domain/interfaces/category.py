@@ -17,3 +17,7 @@ class CategoryInterface(ABC):
     @abstractmethod
     def get_categories_by_store_id(self, store_id: str) -> list[Category]:
         pass
+    
+    @abstractmethod 
+    def delete_category(self, category_id: str):
+        pass

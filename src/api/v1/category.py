@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from src.api.injections.injections import get_categories_by_store_id_use_case, get_create_category_use_case   
+from src.api.injections.injections import get_categories_by_store_id_use_case, get_create_category_use_case, get_delete_category_use_case   
 
 category_bp = Blueprint('category', __name__, url_prefix='/api/v1/stores')
 
@@ -30,5 +30,17 @@ def get_categories_by_store_id(store_id):
             "message": "Categories retrieved successfully",
             "data": [category.__dict__ for category in categories]
         }), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+    
+    
+@category_bp.route('/category/<string:category_id>', methods=['DELETE'])
+def delete_category(category_id):
+    try:
+        get_delete_category_use_case().execute(category_id=category_id)
+        return jsonify({
+            "message": "Category deleted successfully"
+        }), 200
+
     except Exception as e:
         return jsonify({"error": str(e)}), 400

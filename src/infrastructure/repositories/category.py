@@ -69,3 +69,10 @@ class CategoryRepository(CategoryInterface):
                 active=category.active
             ) for category in categories
         ]
+        
+    def delete_category(self, category_id):
+        category = CategoryModel.query.get(category_id)
+        if not category:
+            raise Exception("Category not found")
+        db.session.delete(category)
+        db.session.commit()
