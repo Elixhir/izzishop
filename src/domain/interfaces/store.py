@@ -17,3 +17,7 @@ class StoreInterface(ABC):
     @abstractmethod
     def delete_store(self, store_id: int) -> None:
         pass
+    
+    @abstractmethod
+    def update_store(self, store_id: int, store: Store) -> Store:
+        pass

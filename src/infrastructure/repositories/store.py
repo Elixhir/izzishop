@@ -33,3 +33,16 @@ class StoreRepository(StoreInterface):
         db.session.delete(store)
         db.session.commit()
         
+    def update_store(self, store_id, store):
+        store_model = StoreModel.query.get(store_id)
+        if not store_model:
+            raise Exception("Store not found")
+        
+        store_model.name = store.name
+        store_model.slug = store.slug
+        store_model.active = store.active
+        
+        db.session.commit()
+        db.session.refresh(store_model)
+        return store_model
+        
