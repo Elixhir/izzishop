@@ -81,10 +81,8 @@ def get_top_expensive_products():
 @product_bp.route("/products/<string:product_id>", methods=["DELETE"])
 def delete_product(product_id):
     try:
-        success = get_delete_product_use_case().execute(product_id=product_id)
-        if success:
-            return jsonify({"message": "Product deleted successfully"}), 200
-        else:
-            return jsonify({"error": "Product not found"}), 404
+        get_delete_product_use_case().execute(product_id=product_id)
+        return jsonify({"message": "Product deleted successfully"}), 200
+    
     except Exception as e:
         return jsonify({"error": str(e)}), 400
