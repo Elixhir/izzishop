@@ -2,7 +2,12 @@
 class CreateStoreDTO:
     def __init__(self, name):
         self.name = name    
-    
+
+class UpdateStoreDTO:
+    def __init__(self, name: str = None, active: bool = None):
+        self.name = name
+        self.active = active
+
 class DetailStoreDTO:
 
     def __init__(self, id, name, slug, active):

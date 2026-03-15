@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from src.api.injections.injections import get_all_active_stores_use_case, get_create_store_use_case, get_delete_store_use_case, get_store_by_id_use_case, get_update_store_use_case
-from src.api.dto.store import CreateStoreDTO, DetailStoreDTO
+from src.api.dto.store import CreateStoreDTO, DetailStoreDTO, UpdateStoreDTO
 
 store_bp = Blueprint('store', __name__, url_prefix='/api/v1/store')
 
@@ -63,7 +63,10 @@ def update_store(store_id):
     data = request.get_json()
     
     try:
-        entry_data = CreateStoreDTO(name=data.get("name"))
+        entry_data = UpdateStoreDTO(
+            name=data.get("name"),
+            active=data.get("active")
+        )
 
         store = get_update_store_use_case().execute(store_id=store_id, store_data=entry_data)
 

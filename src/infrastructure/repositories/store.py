@@ -39,7 +39,6 @@ class StoreRepository(StoreInterface):
             raise Exception("Store not found")
         
         store_model.name = store.name
-        store_model.slug = store.slug
         store_model.active = store.active
         
         db.session.commit()
