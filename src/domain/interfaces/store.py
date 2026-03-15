@@ -13,3 +13,7 @@ class StoreInterface(ABC):
     @abstractmethod
     def get_all_active_stores(self) -> list[Store]:
         pass
+    
+    @abstractmethod
+    def delete_store(self, store_id: int) -> None:
+        pass

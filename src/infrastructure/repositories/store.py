@@ -1,3 +1,4 @@
+from src.api.dto import store
 from src.domain.interfaces.store import StoreInterface
 from src.infrastructure.database import db
 from src.infrastructure.models.store import StoreModel
@@ -24,3 +25,11 @@ class StoreRepository(StoreInterface):
     
     def get_all_active_stores(self):
         return StoreModel.query.filter(StoreModel.active == True).all()
+    
+    def delete_store(self, store_id):
+        store = StoreModel.query.get(store_id)
+        if not store:
+            raise Exception("Store not found")
+        db.session.delete(store)
+        db.session.commit()
+        
