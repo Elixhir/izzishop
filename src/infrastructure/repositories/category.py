@@ -2,7 +2,8 @@ from src.domain.interfaces.category import CategoryInterface
 from src.domain.entities.category import Category
 from src.infrastructure.models.category import CategoryModel
 from src.infrastructure.database import db
-
+from src.infrastructure.storage.supabase_storage import SupabaseStorage
+from src.infrastructure.models.product import ProductModel
 
 class CategoryRepository(CategoryInterface):
 
@@ -70,9 +71,22 @@ class CategoryRepository(CategoryInterface):
             ) for category in categories
         ]
         
-    def delete_category(self, category_id):
+    def delete_category(self, category_id: str):
         category = CategoryModel.query.get(category_id)
         if not category:
             raise Exception("Category not found")
+
+        storage = SupabaseStorage()
+
+        products = ProductModel.query.filter_by(category_id=category_id).all()
+        for product in products:
+            if product.image_url:
+                filename = product.image_url.split('/')[-1]
+                try:
+                    storage.client.storage.from_(storage.bucket).remove([filename])
+                except Exception as e:
+                    print(f"No se pudo eliminar imagen {filename}: {e}")
+            db.session.delete(product)
+
         db.session.delete(category)
         db.session.commit()

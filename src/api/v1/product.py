@@ -69,7 +69,7 @@ def get_products_by_category_and_store(store_id, category_id):
 @product_bp.route("/products", methods=["GET"])
 def get_top_expensive_products():
     try:
-        limit = int(request.args.get("limit", 3))
+        limit = int(request.args.get("limit", 5))
         products = get_top_expensive_products_use_case().execute(limit=limit)
         return jsonify({
             "message": "Top expensive products retrieved successfully",

@@ -4,5 +4,5 @@ class GetTopExpensiveProductsUseCase:
     def __init__(self, product_repository: ProductInterface):
         self.product_repository = product_repository
 
-    def execute(self, limit: int = 3) -> list:
+    def execute(self, limit: int = 5) -> list:
         return self.product_repository.get_top_expensive_products(limit = limit)
