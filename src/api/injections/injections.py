@@ -3,6 +3,7 @@ from src.domain.use_cases.create_store import CreateStoreUseCase
 from src.domain.use_cases.delete_category import DeleteCategoryUseCase
 from src.domain.use_cases.delete_product import DeleteProductUseCase
 from src.domain.use_cases.delete_store import DeleteStoreUseCase
+from src.domain.use_cases.get_all_stores import GetAllStoresUseCase
 from src.domain.use_cases.get_categories_by_store_id import GetCategoriesByStoreId
 from src.domain.use_cases.get_products_by_category_and_store import GetProductsByCategoryAndStore
 from src.domain.use_cases.get_products_by_store import GetProductsByStore
@@ -45,6 +46,11 @@ def get_delete_store_use_case() -> DeleteStoreUseCase:
 def get_update_store_use_case() -> UpdateStoreUseCase:
     store_repository = get_store_repository()
     return UpdateStoreUseCase(store_repository)
+
+def get_all_stores_use_case() -> GetAllStoresUseCase:
+    store_repository = get_store_repository()
+    return GetAllStoresUseCase(store_repository)
+
 
 #Categories
 def get_create_category_use_case() -> CreateCategoryUseCase:

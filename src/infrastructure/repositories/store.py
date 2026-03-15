@@ -44,4 +44,7 @@ class StoreRepository(StoreInterface):
         db.session.commit()
         db.session.refresh(store_model)
         return store_model
+    
+    def get_all_stores(self):
+        return StoreModel.query.all()
         

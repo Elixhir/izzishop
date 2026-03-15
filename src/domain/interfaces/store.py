@@ -21,3 +21,7 @@ class StoreInterface(ABC):
     @abstractmethod
     def update_store(self, store_id: int, store: Store) -> Store:
         pass
+    
+    @abstractmethod
+    def get_all_stores(self) -> list[Store]:
+        pass

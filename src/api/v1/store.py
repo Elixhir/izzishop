@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from src.api.injections.injections import get_all_active_stores_use_case, get_create_store_use_case, get_delete_store_use_case, get_store_by_id_use_case, get_update_store_use_case
+from src.api.injections.injections import get_all_active_stores_use_case, get_all_stores_use_case, get_create_store_use_case, get_delete_store_use_case, get_store_by_id_use_case, get_update_store_use_case
 from src.api.dto.store import CreateStoreDTO, DetailStoreDTO, UpdateStoreDTO
 
 store_bp = Blueprint('store', __name__, url_prefix='/api/v1/store')
@@ -75,6 +75,18 @@ def update_store(store_id):
         return jsonify({
             "message": "Store updated successfully",
             "store": response_dto.__dict__
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+    
+@store_bp.route("/all", methods=["GET"])
+def get_all_stores():
+    try:
+        stores = get_all_stores_use_case().execute()
+        response_dtos = [DetailStoreDTO.from_entity(store) for store in stores]
+        return jsonify({
+            "stores": [dto.__dict__ for dto in response_dtos]
         }), 200
 
     except Exception as e:
