@@ -78,7 +78,7 @@ def get_top_expensive_products():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
     
-@product_bp.route("/products/<int:product_id>", methods=["DELETE"])
+@product_bp.route("/products/<string:product_id>", methods=["DELETE"])
 def delete_product(product_id):
     try:
         success = get_delete_product_use_case().execute(product_id=product_id)
