@@ -19,7 +19,10 @@ class ProductRepository(ProductInterface):
             image_url=product.image_url,
             active=product.active,
             store_id=product.store_id,
-            category_id=product.category_id
+            category_id=product.category_id,
+            size=product.size,        
+            color=product.color,     
+            quality=product.quality    
         )
 
         db.session.add(new_product)
@@ -35,7 +38,10 @@ class ProductRepository(ProductInterface):
             category_id=new_product.category_id,
             description=new_product.description,
             image_url=new_product.image_url,
-            active=new_product.active
+            active=new_product.active,
+            size=new_product.size,        
+            color=new_product.color,       
+            quality=new_product.quality   
         )
         
     def get_products_by_store(self, store_id: int) -> list[Product]:
@@ -50,7 +56,10 @@ class ProductRepository(ProductInterface):
                 category_id=product.category_id,
                 description=product.description,
                 image_url=product.image_url,
-                active=product.active
+                active=product.active,
+                size=product.size,     
+                color=product.color,       
+                quality=product.quality   
             ) for product in products
         ]
         
@@ -66,7 +75,10 @@ class ProductRepository(ProductInterface):
                 category_id=product.category_id,
                 description=product.description,
                 image_url=product.image_url,
-                active=product.active
+                active=product.active,
+                size=product.size,       
+                color=product.color,       
+                quality=product.quality    
             ) for product in products
         ]
         
@@ -82,7 +94,10 @@ class ProductRepository(ProductInterface):
                 category_id=product.category_id,
                 description=product.description,
                 image_url=product.image_url,
-                active=product.active
+                active=product.active,
+                size=product.size,      
+                color=product.color,      
+                quality=product.quality    
             ) for product in products
         ]
         

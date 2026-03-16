@@ -17,6 +17,9 @@ def create_product(store_id):
         stock = int(request.form.get("stock"))
         category_id = request.form.get("category_id")
         description = request.form.get("description")
+        size = request.form.get("size")   
+        color = request.form.get("color")      
+        quality = request.form.get("quality")
 
         image = request.files.get("image")
 
@@ -33,7 +36,10 @@ def create_product(store_id):
             store_id=store_id,
             category_id=category_id,
             description=description,
-            image_url=image_url
+            image_url=image_url,
+            size=size,        
+            color=color, 
+            quality=quality
         )
 
         return jsonify({

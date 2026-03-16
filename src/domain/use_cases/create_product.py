@@ -25,7 +25,10 @@ class CreateProductUseCase:
         category_id: str | None = None,
         description: str | None = None,
         image_url: str | None = None,
-        active: bool = True
+        active: bool = True,
+        size: str | None = None,      
+        color: str | None = None,     
+        quality: str | None = None   
     ) -> Product:
 
         store = self.store_repository.get_store_by_id(store_id)
@@ -48,7 +51,10 @@ class CreateProductUseCase:
             category_id=category_id,
             description=description,
             image_url=image_url,
-            active=active
+            active=active,
+            size=size,       
+            color=color,      
+            quality=quality   
         )
 
         saved_product = self.product_repository.create_product(product)

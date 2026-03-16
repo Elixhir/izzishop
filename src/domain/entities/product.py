@@ -11,6 +11,9 @@ class Product:
     stock: int
     active: bool
     store_id: str
+    size: str
+    color: str
+    quality: str
     category_id: Optional[str]
     image_url: Optional[str]
     description: Optional[str]
