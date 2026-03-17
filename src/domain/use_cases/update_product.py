@@ -26,4 +26,4 @@ class UpdateProductUseCase:
             quality=kwargs.get('quality', existing_product.quality)
         )
 
-        return self.product_repository.update_product(updated_product)  
+        self.product_repository.update_product(product_id, updated_product)  
