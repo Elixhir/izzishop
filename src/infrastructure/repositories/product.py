@@ -131,33 +131,33 @@ class ProductRepository(ProductInterface):
             quality=product.quality    
         )
         
-def update_product(self, product_id, updated_product):
-    product = ProductModel.query.get(product_id)
-    if not product:
-        return None
-    
-    product.name = updated_product.name
-    product.price = updated_product.price
-    product.stock = updated_product.stock
-    product.description = updated_product.description
-    product.active = updated_product.active
-    product.size = updated_product.size
-    product.color = updated_product.color
-    product.quality = updated_product.quality
-    
-    db.session.commit()
-    
-    return Product(
-        id=product.id,
-        name=product.name,
-        price=product.price,
-        stock=product.stock,
-        store_id=product.store_id,
-        category_id=product.category_id,
-        description=product.description,
-        image_url=product.image_url,
-        active=product.active,
-        size=product.size,      
-        color=product.color,      
-        quality=product.quality    
-    )
+    def update_product(self, product_id, updated_product):
+        product = ProductModel.query.get(product_id)
+        if not product:
+            return None
+        
+        product.name = updated_product.name
+        product.price = updated_product.price
+        product.stock = updated_product.stock
+        product.description = updated_product.description
+        product.active = updated_product.active
+        product.size = updated_product.size
+        product.color = updated_product.color
+        product.quality = updated_product.quality
+        
+        db.session.commit()
+        
+        return Product(
+            id=product.id,
+            name=product.name,
+            price=product.price,
+            stock=product.stock,
+            store_id=product.store_id,
+            category_id=product.category_id,
+            description=product.description,
+            image_url=product.image_url,
+            active=product.active,
+            size=product.size,      
+            color=product.color,      
+            quality=product.quality    
+        )
