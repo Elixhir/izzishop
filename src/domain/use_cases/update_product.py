@@ -19,8 +19,8 @@ class UpdateProductUseCase:
             stock=kwargs.get('stock', existing_product.stock),
             image_url=kwargs.get('image_url', existing_product.image_url),
             active=kwargs.get('active', existing_product.active),
-            store_id=existing_product.store_id, 
-            category_id=kwargs.get('category_id', existing_product.category_id),
+            store_id=existing_product.store_id,
+            category_id=existing_product.category_id,
             size=kwargs.get('size', existing_product.size),
             color=kwargs.get('color', existing_product.color),
             quality=kwargs.get('quality', existing_product.quality)
