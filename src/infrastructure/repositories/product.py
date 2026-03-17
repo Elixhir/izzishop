@@ -123,6 +123,7 @@ class ProductRepository(ProductInterface):
             price=product.price,
             stock=product.stock,
             store_id=product.store_id,
+            category_id=product.category_id,
             description=product.description,
             image_url=product.image_url,
             active=product.active,
