@@ -9,6 +9,7 @@ from src.domain.use_cases.get_products_by_category_and_store import GetProductsB
 from src.domain.use_cases.get_products_by_store import GetProductsByStore
 from src.domain.use_cases.get_top_expensive_products import GetTopExpensiveProductsUseCase
 from src.domain.use_cases.update_category import UpdateCategoryUseCase
+from src.domain.use_cases.update_product import UpdateProductUseCase
 from src.domain.use_cases.update_store import UpdateStoreUseCase
 from src.infrastructure.repositories.product import ProductRepository
 from src.infrastructure.repositories.store import StoreRepository
@@ -95,5 +96,10 @@ def get_top_expensive_products_use_case():
     
 def get_delete_product_use_case():
     return DeleteProductUseCase(
+        product_repository=get_product_repository()
+    )
+    
+def get_update_product_use_case():
+    return UpdateProductUseCase(
         product_repository=get_product_repository()
     )

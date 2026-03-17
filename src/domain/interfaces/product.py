@@ -21,3 +21,11 @@ class ProductInterface(ABC):
     @abstractmethod
     def delete_product(self, product_id: int):
         pass
+    
+    @abstractmethod
+    def update_product(self, product_id: int, product: Product):
+        pass
+    
+    @abstractmethod
+    def get_by_id(self, product_id: int) -> Product | None:
+        pass

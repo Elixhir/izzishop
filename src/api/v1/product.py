@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from src.api.injections.injections import get_create_product_use_case, get_delete_product_use_case, get_products_by_category_and_store_use_case, get_products_by_store_use_case, get_top_expensive_products_use_case
+from src.api.injections.injections import get_create_product_use_case, get_delete_product_use_case, get_products_by_category_and_store_use_case, get_products_by_store_use_case, get_top_expensive_products_use_case, get_update_product_use_case
 from src.infrastructure.storage.supabase_storage import SupabaseStorage
 
 product_bp = Blueprint(
@@ -90,5 +90,17 @@ def delete_product(product_id):
         get_delete_product_use_case().execute(product_id=product_id)
         return jsonify({"message": "Product deleted successfully"}), 200
     
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+    
+@product_bp.route("/products/<string:product_id>", methods=["PATCH"])
+def update_product(product_id):
+    try:
+        data = request.get_json()
+        updated_product = get_update_product_use_case().execute(product_id=product_id, **data)
+        return jsonify({
+            "message": "Product updated successfully",
+            "data": updated_product.__dict__
+        }), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400

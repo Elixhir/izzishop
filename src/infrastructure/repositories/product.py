@@ -112,3 +112,48 @@ class ProductRepository(ProductInterface):
         db.session.commit()
 
         return True
+    
+    def get_by_id(self, product_id):
+        product = ProductModel.query.get(product_id)
+        if not product:
+            return None
+        return Product(
+            id=product.id,
+            name=product.name,
+            price=product.price,
+            stock=product.stock,
+            store_id=product.store_id,
+            description=product.description,
+            image_url=product.image_url,
+            active=product.active,
+            size=product.size,      
+            color=product.color,      
+            quality=product.quality    
+        )
+        
+    def update_product(self, product_id, product):
+        product = ProductModel.query.get(product_id)
+        if not product:
+            return None
+        product.name = product.name
+        product.price = product.price
+        product.stock = product.stock
+        product.description = product.description
+        product.active = product.active
+        product.size = product.size
+        product.color = product.color
+        product.quality = product.quality
+        db.session.commit()
+        return Product(
+            id=product.id,
+            name=product.name,
+            price=product.price,
+            stock=product.stock,
+            store_id=product.store_id,
+            description=product.description,
+            image_url=product.image_url,
+            active=product.active,
+            size=product.size,      
+            color=product.color,      
+            quality=product.quality    
+        )
