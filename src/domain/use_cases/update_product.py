@@ -5,22 +5,25 @@ class UpdateProductUseCase:
     def __init__(self, product_repository: ProductInterface):
         self.product_repository = product_repository
 
-    def execute(self, product_id: int, product_data: dict):
+    def execute(self, product_id: str, **kwargs): 
+        
         existing_product = self.product_repository.get_by_id(product_id)
         if not existing_product:
             raise ValueError("Product not found")
 
         updated_product = Product(
             id=product_id,
-            name=product_data.get('name', existing_product.name),
-            description=product_data.get('description', existing_product.description),
-            price=product_data.get('price', existing_product.price),
-            store_id=product_data.get('store_id', existing_product.store_id),
-            active=product_data.get('active', existing_product.active),
-            stock=product_data.get('stock', existing_product.stock),
-            image_url=product_data.get('image_url', existing_product.image_url),
-            size=product_data.get('size', existing_product.size),
-            color=product_data.get('color', existing_product.color),
-            quality=product_data.get('quality', existing_product.quality)
+            name=kwargs.get('name', existing_product.name),
+            price=kwargs.get('price', existing_product.price),
+            description=kwargs.get('description', existing_product.description),
+            stock=kwargs.get('stock', existing_product.stock),
+            image_url=kwargs.get('image_url', existing_product.image_url),
+            active=kwargs.get('active', existing_product.active),
+            store_id=existing_product.store_id, 
+            category_id=kwargs.get('category_id', existing_product.category_id),
+            size=kwargs.get('size', existing_product.size),
+            color=kwargs.get('color', existing_product.color),
+            quality=kwargs.get('quality', existing_product.quality)
         )
-        self.product_interface.update_product(product_id, updated_product)
+
+        return self.product_repository.update_product(updated_product)  
