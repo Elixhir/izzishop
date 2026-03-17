@@ -8,6 +8,7 @@ from src.domain.use_cases.get_categories_by_store_id import GetCategoriesByStore
 from src.domain.use_cases.get_products_by_category_and_store import GetProductsByCategoryAndStore
 from src.domain.use_cases.get_products_by_store import GetProductsByStore
 from src.domain.use_cases.get_top_expensive_products import GetTopExpensiveProductsUseCase
+from src.domain.use_cases.update_category import UpdateCategoryUseCase
 from src.domain.use_cases.update_store import UpdateStoreUseCase
 from src.infrastructure.repositories.product import ProductRepository
 from src.infrastructure.repositories.store import StoreRepository
@@ -64,6 +65,10 @@ def get_categories_by_store_id_use_case() -> GetCategoriesByStoreId:
 def get_delete_category_use_case() -> DeleteCategoryUseCase:
     category_repository = get_category_repository()
     return DeleteCategoryUseCase(category_repository)
+
+def get_update_category_use_case() -> UpdateCategoryUseCase:
+    category_repository = get_category_repository()
+    return UpdateCategoryUseCase(category_repository)
 
 #Products
 def get_create_product_use_case():

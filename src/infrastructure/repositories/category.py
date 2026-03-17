@@ -90,3 +90,16 @@ class CategoryRepository(CategoryInterface):
 
         db.session.delete(category)
         db.session.commit()
+        
+    def update_category(self, category_id, name):
+        category = CategoryModel.query.get(category_id)
+        if not category:
+            raise Exception("Category not found")
+        category.name = name
+        db.session.commit()
+        return Category(
+            id=category.id,
+            name=category.name,
+            store_id=category.store_id,
+            active=category.active
+        )

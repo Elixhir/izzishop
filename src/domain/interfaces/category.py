@@ -21,3 +21,7 @@ class CategoryInterface(ABC):
     @abstractmethod 
     def delete_category(self, category_id: str):
         pass
+    
+    @abstractmethod
+    def update_category(self, category_id: str, name: str) -> Category:
+        pass
