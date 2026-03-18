@@ -1,10 +1,14 @@
 from src.api.dto import store
 from src.domain.interfaces.store import StoreInterface
 from src.infrastructure.database import db
+from src.infrastructure.models.product import ProductModel
 from src.infrastructure.models.store import StoreModel
 from src.domain.entities.store import Store
+from src.infrastructure.storage.supabase_storage import SupabaseStorage
 
 class StoreRepository(StoreInterface):
+    def __init__(self):
+        self.storage = SupabaseStorage()
 
     def create_store(self, store: Store) -> Store:
         
@@ -30,6 +34,16 @@ class StoreRepository(StoreInterface):
         store = StoreModel.query.get(store_id)
         if not store:
             raise Exception("Store not found")
+        
+        products = ProductModel.query.filter_by(store_id=store_id).all()
+        
+        for product in products:
+            if product.image_url:
+                try:
+                    self.storage.delete_file(product.image_url)
+                except Exception as e:
+                    print(f"Error eliminando imagen {product.image_url}: {e}")
+        
         db.session.delete(store)
         db.session.commit()
         
