@@ -54,44 +54,84 @@ def create_product(store_id):
 @product_bp.route("/<string:store_id>/products", methods=["GET"])
 def get_products_by_store(store_id):
     try:
-        page, per_page = get_pagination_params()
+        page = request.args.get("page", 1, type=int)
+        per_page = request.args.get("per_page", 10, type=int)
         
-        all_products = get_products_by_store_use_case().execute(store_id=store_id)
+        products, total = get_products_by_store_use_case().execute(
+            store_id=store_id,
+            page=page,
+            per_page=per_page
+        )
         
-        total = len(all_products)
-        start = (page - 1) * per_page
-        end = start + per_page
-        paginated_products = all_products[start:end]
+        products_dict = [product.__dict__ for product in products]
         
-        response = build_pagination_response(paginated_products, total, page, per_page)
-        response["message"] = "Products retrieved successfully"
+        total_pages = (total + per_page - 1) // per_page
+        has_next = page < total_pages
+        has_prev = page > 1
         
-        return jsonify(response), 200
+        return jsonify({
+            "message": "Products retrieved successfully",
+            "data": products_dict, 
+            "pagination": {
+                "page": page,
+                "per_page": per_page,
+                "total": total,
+                "total_pages": total_pages,
+                "has_next": has_next,
+                "has_prev": has_prev,
+                "next_page": page + 1 if has_next else None,
+                "prev_page": page - 1 if has_prev else None
+            }
+        }), 200
 
     except Exception as e:
+        print(f"ERROR: {str(e)}")
         return jsonify({"error": str(e)}), 400
+
 
 @product_bp.route("/<string:store_id>/categories/<string:category_id>/products", methods=["GET"])
 def get_products_by_category_and_store(store_id, category_id):
     try:
-        page, per_page = get_pagination_params()
-
-        all_products = get_products_by_category_and_store_use_case().execute(
+        page = request.args.get("page", 1, type=int)
+        per_page = request.args.get("per_page", 10, type=int)
+        
+        if page < 1: page = 1
+        if per_page < 1: per_page = 10
+        if per_page > 50: per_page = 50
+        
+        products, total = get_products_by_category_and_store_use_case().execute(
             category_id=category_id,
-            store_id=store_id
+            store_id=store_id,
+            page=page,
+            per_page=per_page
         )
         
-        total = len(all_products)
-        start = (page - 1) * per_page
-        end = start + per_page
-        paginated_products = all_products[start:end]
+        products_data = []
+        for product in products:
+            if hasattr(product, '__dict__'):
+                products_data.append(product.__dict__)
+            else:
+                products_data.append(product)
         
-        response = build_pagination_response(paginated_products, total, page, per_page)
-        response["message"] = "Products retrieved successfully"
+        total_pages = (total + per_page - 1) // per_page
         
-        return jsonify(response), 200
+        return jsonify({
+            "message": "Products retrieved successfully",
+            "data": products_data,
+            "pagination": {
+                "page": page,
+                "per_page": per_page,
+                "total": total,
+                "total_pages": total_pages,
+                "has_next": page < total_pages,
+                "has_prev": page > 1,
+                "next_page": page + 1 if page < total_pages else None,
+                "prev_page": page - 1 if page > 1 else None
+            }
+        }), 200
 
     except Exception as e:
+        print(f"ERROR en get_products_by_category_and_store: {str(e)}")
         return jsonify({"error": str(e)}), 400
     
 @product_bp.route("/products", methods=["GET"])
