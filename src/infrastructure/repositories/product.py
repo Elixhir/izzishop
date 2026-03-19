@@ -44,9 +44,17 @@ class ProductRepository(ProductInterface):
             quality=new_product.quality   
         )
         
-    def get_products_by_store(self, store_id: int) -> list[Product]:
-        products = ProductModel.query.filter_by(store_id=store_id).all()
-        return [
+    def get_products_by_store(self, store_id: int, page: int = 1, per_page: int = 10) -> tuple[list[Product], int]:
+
+        offset = (page - 1) * per_page
+        
+        products_query = ProductModel.query.filter_by(store_id=store_id)
+        
+        total = products_query.count()
+        
+        paginated_products = products_query.offset(offset).limit(per_page).all()
+        
+        products = [
             Product(
                 id=product.id,
                 name=product.name,
@@ -60,12 +68,25 @@ class ProductRepository(ProductInterface):
                 size=product.size,     
                 color=product.color,       
                 quality=product.quality   
-            ) for product in products
+            ) for product in paginated_products
         ]
         
-    def get_products_by_category_and_store(self, category_id, store_id):
-        products = ProductModel.query.filter_by(category_id=category_id, store_id=store_id).all()
-        return [
+        return products, total
+        
+    def get_products_by_category_and_store(self, category_id, store_id, page: int = 1, per_page: int = 10) -> tuple[list[Product], int]:
+
+        offset = (page - 1) * per_page
+        
+        products_query = ProductModel.query.filter_by(
+            category_id=category_id, 
+            store_id=store_id
+        )
+        
+        total = products_query.count()
+        
+        paginated_products = products_query.offset(offset).limit(per_page).all()
+        
+        products = [
             Product(
                 id=product.id,
                 name=product.name,
@@ -79,8 +100,10 @@ class ProductRepository(ProductInterface):
                 size=product.size,       
                 color=product.color,       
                 quality=product.quality    
-            ) for product in products
+            ) for product in paginated_products
         ]
+        
+        return products, total
         
     def get_top_expensive_products(self, limit):
         products = ProductModel.query.order_by(ProductModel.price.desc()).limit(limit).all()

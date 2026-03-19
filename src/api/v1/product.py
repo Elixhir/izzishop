@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from src.api.injections.injections import get_create_product_use_case, get_delete_product_use_case, get_products_by_category_and_store_use_case, get_products_by_store_use_case, get_top_expensive_products_use_case, get_update_product_use_case
 from src.infrastructure.storage.supabase_storage import SupabaseStorage
+from src.api.v1.pagination import get_pagination_params, build_pagination_response
 
 product_bp = Blueprint(
     "product",
@@ -53,22 +54,43 @@ def create_product(store_id):
 @product_bp.route("/<string:store_id>/products", methods=["GET"])
 def get_products_by_store(store_id):
     try:
-        products = get_products_by_store_use_case().execute(store_id=store_id)
-        return jsonify({
-            "message": "Products retrieved successfully",
-            "data": [product.__dict__ for product in products]
-        }), 200
+        page, per_page = get_pagination_params()
+        
+        all_products = get_products_by_store_use_case().execute(store_id=store_id)
+        
+        total = len(all_products)
+        start = (page - 1) * per_page
+        end = start + per_page
+        paginated_products = all_products[start:end]
+        
+        response = build_pagination_response(paginated_products, total, page, per_page)
+        response["message"] = "Products retrieved successfully"
+        
+        return jsonify(response), 200
+
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-    
+
 @product_bp.route("/<string:store_id>/categories/<string:category_id>/products", methods=["GET"])
 def get_products_by_category_and_store(store_id, category_id):
     try:
-        products = get_products_by_category_and_store_use_case().execute(category_id=category_id, store_id=store_id)
-        return jsonify({
-            "message": "Products retrieved successfully",
-            "data": [product.__dict__ for product in products]
-        }), 200
+        page, per_page = get_pagination_params()
+
+        all_products = get_products_by_category_and_store_use_case().execute(
+            category_id=category_id,
+            store_id=store_id
+        )
+        
+        total = len(all_products)
+        start = (page - 1) * per_page
+        end = start + per_page
+        paginated_products = all_products[start:end]
+        
+        response = build_pagination_response(paginated_products, total, page, per_page)
+        response["message"] = "Products retrieved successfully"
+        
+        return jsonify(response), 200
+
     except Exception as e:
         return jsonify({"error": str(e)}), 400
     
